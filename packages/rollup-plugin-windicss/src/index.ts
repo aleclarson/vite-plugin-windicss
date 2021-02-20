@@ -49,7 +49,7 @@ function WindiCssRollupPlugin(userOptions: UserOptions = {}): Plugin[] {
     plugins.push({
       name: `${NAME}:css`,
       transform(code, id) {
-        if (!utils.isCssTransformTarget(id))
+        if (MODULE_ID_VIRTUAL === id || MODULE_ID_VIRTUAL === id || !utils.isCssTransformTarget(id))
           return
         debug.css(id)
         return utils.transformCSS(code)

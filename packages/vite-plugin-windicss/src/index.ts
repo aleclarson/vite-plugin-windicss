@@ -56,16 +56,18 @@ function VitePluginWindicss(userOptions: UserOptions = {}): Plugin[] {
     },
   })
 
-  // // Build
-  // plugins.push({
-  //   name: `${NAME}:build`,
-  //   apply: 'build',
-  //   enforce: 'post',
-  //   transform(code, id) {
-  //     utils.extractFile(code)
-  //     return null
-  //   },
-  // })
+  // Build
+  plugins.push({
+    name: `${NAME}:build`,
+    apply: 'build',
+    enforce: 'post',
+    transform(code, id) {
+      debug.hmr('transform', id)
+      if (utils.isScanTarget(id))
+        utils.extractFile(code)
+      return null
+    },
+  })
 
   // HMR
   plugins.push({
@@ -76,6 +78,12 @@ function VitePluginWindicss(userOptions: UserOptions = {}): Plugin[] {
     configureServer(server) {
       if (utils.configFilePath)
         server.watcher.add(utils.configFilePath)
+    },
+
+    transform(code, id) {
+      if (utils.isScanTarget(id))
+        utils.extractFile(code)
+      return null
     },
 
     async handleHotUpdate({ server, file, read, modules }) {
@@ -112,7 +120,7 @@ function VitePluginWindicss(userOptions: UserOptions = {}): Plugin[] {
     plugins.push({
       name: `${NAME}:css`,
       transform(code, id) {
-        if (!utils.isCssTransformTarget(id))
+        if (MODULE_ID_VIRTUAL === id || MODULE_ID_VIRTUAL === id || !utils.isCssTransformTarget(id))
           return
         debug.css(id)
         return utils.transformCSS(code)
