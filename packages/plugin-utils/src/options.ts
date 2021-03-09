@@ -99,7 +99,7 @@ export interface UserOptions {
     /**
      * File extension to search for classnames
      *
-     * @default 'html', 'vue', 'md', 'mdx', 'pug', 'jsx', 'tsx', 'svelte'
+     * @default 'html', 'vue', 'md', 'mdx', 'pug', 'jsx', 'tsx', 'svelte', 'sass', 'scss'
      */
     fileExtensions?: string[]
 
@@ -261,7 +261,7 @@ export function resolveOptions(options: UserOptions | ResolvedOptions = {}): Res
 
   const scanOptions = Object.assign(
     {
-      fileExtensions: ['html', 'vue', 'md', 'mdx', 'pug', 'jsx', 'tsx', 'svelte'],
+      fileExtensions: ['html', 'vue', 'md', 'mdx', 'pug', 'jsx', 'tsx', 'svelte', 'sass', 'scss'],
       dirs: ['src'],
       exclude: [] as string[],
       include: [] as string[],
